@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/sistema_gastos
     username: postgres
-    password: postgres
+    password: 123456
     driver-class-name: org.postgresql.Driver
   
   jpa:
@@ -22,8 +22,8 @@ spring:
     locations: classpath:db/migration
 
 jwt:
-  secret: ${JWT_SECRET:your-256-bit-secret-key-change-this-in-production-minimum-32-characters}
-  expiration: 86400000 # 24 horas em millisegundos
+  secret: teste1234567890
+  expiration: 86400000 
 
 logging:
   level:

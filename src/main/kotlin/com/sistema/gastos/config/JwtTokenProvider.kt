@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 import java.security.Key
 import java.util.*
 
+
 @Component
 class JwtTokenProvider(
     private val jwtProperties: JwtProperties
@@ -48,10 +49,10 @@ class JwtTokenProvider(
     }
 
     private fun getClaimsFromToken(token: String): Claims {
-        return Jwts.parserBuilder()
-            .setSigningKey(key)
+        return Jwts.parser()
+            .verifyWith(Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray()))
             .build()
-            .parseClaimsJws(token)
-            .body
+            .parseSignedClaims(token)
+            .payload
     }
 }
