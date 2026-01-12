@@ -1,4 +1,4 @@
-# Sistema de Controle de Gastos
+# SafeSpend - Sistema de Controle de Gastos
 
 Sistema backend para controle de gastos pessoais desenvolvido com Kotlin e Spring Boot.
 
