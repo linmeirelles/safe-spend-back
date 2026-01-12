@@ -12,6 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.Locale
+import java.util.Locale.getDefault
 
 @Service
 class AuthService(
@@ -29,7 +31,7 @@ class AuthService(
 
         val user = User(
             name = request.name,
-            email = request.email,
+            email = request.email.lowercase(getDefault()),
             password = passwordEncoder.encode(request.password)
         )
 
@@ -46,11 +48,12 @@ class AuthService(
 
     @Transactional(readOnly = true)
     fun login(request: LoginRequest): AuthResponse {
+        val email = request.email.lowercase(getDefault())
         authenticationManager.authenticate(
-            UsernamePasswordAuthenticationToken(request.email, request.password)
+            UsernamePasswordAuthenticationToken(email, request.password)
         )
 
-        val user = userRepository.findByEmail(request.email)
+        val user = userRepository.findByEmail(email)
             ?: throw BusinessException("Usuário não encontrado")
 
         val token = jwtTokenProvider.generateToken(user.id, user.email)
